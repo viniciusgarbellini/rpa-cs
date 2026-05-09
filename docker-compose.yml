@@ -1,0 +1,97 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: rpa_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-rpa_assets}
+      POSTGRES_USER: ${POSTGRES_USER:-rpa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rpa_secret_change_me}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rpa} -d ${POSTGRES_DB:-rpa_assets}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  legacy-api:
+    build: ./legacy_api
+    container_name: rpa_legacy_api
+    environment:
+      LEGACY_API_PORT: 8001
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/healthz')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  sensor-sim:
+    build: ./sensor_simulator
+    container_name: rpa_sensor_sim
+    environment:
+      SENSOR_API_PORT: 8002
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/healthz')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  rpa-orchestrator:
+    build: .
+    container_name: rpa_orchestrator
+    depends_on:
+      postgres:
+        condition: service_healthy
+      legacy-api:
+        condition: service_healthy
+      sensor-sim:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-rpa_assets}
+      POSTGRES_USER: ${POSTGRES_USER:-rpa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rpa_secret_change_me}
+      LEGACY_API_URL: http://legacy-api:8001
+      SENSOR_API_URL: http://sensor-sim:8002
+      LOG_LEVEL: INFO
+      LOG_FORMAT: json
+      DROP_FOLDER: /app/data/drop
+      ARCHIVE_FOLDER: /app/data/archive
+      MANUAL_FOLDER: /app/data/manual
+      LOG_FOLDER: /app/logs
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    command: ["python", "-m", "src.main", "run"]
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    container_name: rpa_dashboard
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-rpa_assets}
+      POSTGRES_USER: ${POSTGRES_USER:-rpa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rpa_secret_change_me}
+    ports:
+      - "8501:8501"
+    command: ["streamlit", "run", "dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
+    restart: unless-stopped
+
+volumes:
+  pg_data:

@@ -1,0 +1,7 @@
+asset_tag,timestamp,temperature,temperature_unit,vibration,vibration_unit
+MTR-001,2026-05-09T07:00:00Z,140.5,°F,2.5,mm/s
+MTR-001,2026-05-09T07:30:00Z,142.0,°F,2.6,mm/s
+MTR-002,2026-05-09T07:00:00Z,158.0,°F,3.2,mm/s
+MTR-002,2026-05-09T07:30:00Z,160.0,°F,3.4,mm/s
+MTR-003,2026-05-09T07:00:00Z,125.0,°F,1.9,mm/s
+MTR-004,2026-05-09T07:00:00Z,130.0,°F,2.1,mm/s

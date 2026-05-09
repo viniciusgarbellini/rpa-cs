@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Data (mantém pastas, ignora conteúdo dinâmico)
+data/drop/*.csv
+data/drop/*.xlsx
+data/archive/**
+!data/drop/.gitkeep
+!data/archive/.gitkeep
+
+# Coverage / tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Docker
+*.pid
+.compose-up.log
