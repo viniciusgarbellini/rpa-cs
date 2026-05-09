@@ -194,7 +194,7 @@ RPA CS/
 
 ### 1. Clone + configure
 ```bash
-git clone <seu-repo> rpa-cs
+git clone https://github.com/viniciusgarbellini/rpa-cs.git
 cd rpa-cs
 cp .env.example .env   # ajuste senhas se quiser
 ```

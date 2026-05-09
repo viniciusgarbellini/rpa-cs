@@ -15,6 +15,8 @@ RUN pip install -r requirements.txt
 
 COPY src/ ./src/
 COPY dashboard/ ./dashboard/
+COPY tests/ ./tests/
+COPY pytest.ini ./
 
 # Pastas mutáveis (montadas como volume no compose, mas garantem default)
 RUN mkdir -p /app/data/drop /app/data/archive /app/data/manual /app/logs
