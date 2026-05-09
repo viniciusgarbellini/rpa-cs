@@ -30,6 +30,10 @@ Thumbs.db
 logs/
 *.log
 
+# Pasta de evidências é commitada (snapshots de execução pra avaliação)
+!evidencias/
+!evidencias/**
+
 # Data (mantém pastas, ignora conteúdo dinâmico)
 data/drop/*.csv
 data/drop/*.xlsx

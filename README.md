@@ -238,6 +238,21 @@ SELECT * FROM v_assets_current;
 
 ---
 
+## Evidências de execução
+
+A pasta [`evidencias/run_2026-05-09/`](evidencias/run_2026-05-09/) contém um
+snapshot completo de uma execução do pipeline, atendendo aos requisitos
+"logs de execução" e "base de dados inicial populada":
+
+- `rpa.log` — log JSON estruturado dos 4 bots
+- `rpa_assets_dump.sql` — dump `pg_dump` completo (schema + 2.671 leituras + 24 versões SCD2)
+- `SUMMARY.md` — explicação detalhada do conteúdo e como restaurar
+
+Resumo: **119 execuções, 100% de sucesso**, ~3.600 registros processados pelos
+4 bots ao longo de múltiplos ciclos do scheduler.
+
+---
+
 ## Testes
 
 Em ambiente local com Python 3.12:

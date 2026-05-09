@@ -1,0 +1,8 @@
+  bot_name  | execucoes | total_ok | total_falha | media_ms 
+------------+-----------+----------+-------------+----------
+ api_bot    |        21 |      659 |           0 |     1594
+ file_bot   |        31 |       18 |           0 |       40
+ manual_bot |        14 |        0 |           0 |       27
+ sensor_bot |        53 |     2986 |           0 |     2503
+(4 rows)
+

@@ -1,0 +1,8 @@
+     tabela     | count 
+----------------+-------
+ assets_history |    24
+ execution_logs |   117
+ readings_clean |  2671
+ readings_raw   |  2671
+(4 rows)
+
